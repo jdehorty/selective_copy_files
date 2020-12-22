@@ -19,6 +19,9 @@ class Copy ():
 
         self.__verify_paths ()
 
+        self.__find_files()
+        self.__copy_files()
+
     def __verify_paths (self):
         """
         Verify is the from and the to path exist in the pc
@@ -31,7 +34,7 @@ class Copy ():
         if not os.path.exists (self.to_path): 
             raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.to_path)
 
-    def find_files (self): 
+    def __find_files (self): 
         """
         Search all files inside the from folder, and save the 
         full path of the files that match the searched extension.
@@ -51,13 +54,18 @@ class Copy ():
                 if file.endswith(self.extention):
                     self.files.append(os.path.join(folder_name, file))
     
-    def copy_files (self):
+    def __copy_files (self):
         """ 
         Loop inside a list of files and copy to destiny
         """
 
-        absPath = os.path.abspath(self.to_path)
+        # Check if exist files in file list
+        if self.files: 
 
-        for file in self.files: 
-            print ('Copying "{}" to "{}" ...'.format (file, absPath))
-            shutil.copy(file, absPath)
+            absPath = os.path.abspath(self.to_path)
+
+            for file in self.files: 
+                print ('Copying "{}" to "{}" ...'.format (file, absPath))
+                shutil.copy(file, absPath)
+        else: 
+            print ("No files found in from folder")
