@@ -1,58 +1,63 @@
 #! python
-""" Copy a specific file extension in the tree directory """
 
-import os, shutil, sys
+import os, shutil, sys, errno
 
-path = ''
-pathDestiny = '' 
-extension = ''
-my_files = []
+class Copy (): 
+    """ 
+    Copy a specific file extension in the tree directory 
+    """
 
-# Red the terminal
-helpMenssage = 'Write the folder to search files, the folder destination, and the file extensions \
-(example: main.py "user/myfolder" "user/imgaesFolder" ".jpg")'
-if len(sys.argv) == 4:  
-    path = sys.argv[1]
-    pathDestiny = sys.argv[2]
-    extension = sys.argv[3]
+    def __init__ (self, from_path, to_path, extention): 
+        """
+        Constructor of class. Get paths and extension. Generate file list
+        """
 
-else: 
-    print (helpMenssage)
-    sys.exit()
+        self.from_path = from_path
+        self.to_path = to_path
+        self.extention = extention
+        self.files = [] 
 
-# Function with the parameters: file_extension, origin, destination
-def find_files (extention, origin): 
-    """Find all files with specific extension"""
-    files_found = []
+        self.__verify_paths ()
 
-    # Check correct extension
-    if not extention.startswith('.'): 
-        extention = '.' + extention #Add a dot
+    def __verify_paths (self):
+        """
+        Verify is the from and the to path exist in the pc
+        """ 
 
-    absPath = os.path.abspath(origin)
-
-    # walk inside the origin tree
-    for folder_name, subfolder_name, file_names in os.walk(absPath): 
+        # Verify the paths
+        if not os.path.exists (self.from_path): 
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.from_path)
         
-        # if the file has the correct extension, save complite path
-        for file in file_names: 
-            if file.endswith(extention):
-                files_found.append(os.path.join(folder_name,file))
-        
-    return files_found
+        if not os.path.exists (self.to_path): 
+            raise FileNotFoundError(errno.ENOENT, os.strerror(errno.ENOENT), self.to_path)
 
-def copy_files (files, destiny):
-    """ Loop inside a list of files and copy to destiny"""
+    def find_files (self): 
+        """
+        Search all files inside the from folder, and save the 
+        full path of the files that match the searched extension.
+        """
 
-    absPath = os.path.abspath(destiny)
+        # Check correct extension
+        if not self.extention.startswith('.'): 
+            self.extention = '.' + self.extention #Add a dot
 
-    for file in files: 
-        print ('Copying %s to %s ...' % (file, absPath))
-        shutil.copy(file, absPath)
+        absPath = os.path.abspath(self.from_path)
 
-        
+        # walk inside the origin tree
+        for folder_name, subfolder_name, file_names in os.walk(absPath): 
+            
+            # if the file has the correct extension, save complite path
+            for file in file_names: 
+                if file.endswith(self.extention):
+                    self.files.append(os.path.join(folder_name, file))
+    
+    def copy_files (self):
+        """ 
+        Loop inside a list of files and copy to destiny
+        """
 
-# Print menssage for the copy action
+        absPath = os.path.abspath(self.to_path)
 
-my_files = find_files(extension, path)
-copy_files (my_files, pathDestiny)
+        for file in self.files: 
+            print ('Copying "{}" to "{}" ...'.format (file, absPath))
+            shutil.copy(file, absPath)
