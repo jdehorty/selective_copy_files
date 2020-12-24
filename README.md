@@ -1,10 +1,13 @@
-# Selective_copy
-Copy a specific file extension in the tree directory
+# Selective copy
+Copy to a specific folder, all files within a directory, that match a particular extension
 
 # Install
+``` bash
+$ pip install selective-copy
+```
 
 ## How to use
-``` bash
+``` python
 # Import pakage
 from selective_copy_files import selective_copy
 
@@ -15,5 +18,4 @@ extention = "png"
 
 # backup folder 
 selective_copy.Copy(from_folder, to_folder, extention)
-
 ```
