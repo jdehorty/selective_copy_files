@@ -25,10 +25,10 @@ Description: # Selective copy
         #  Save local folders
         from_folder = "c:\\user\\my_files"
         to_folder = "c:\\user\\backup_of_my_files"
-        extention = "png"
+        extension = "png"
         
         # backup folder 
-        selective_copy.Copy(from_folder, to_folder, extention)
+        selective_copy.Copy(from_folder, to_folder, extension)
         ```
         
 Keywords: copy,slective copy,filter files,auto copy,selective-copy,filter-files,auto-copy

@@ -7,14 +7,14 @@ class Copy ():
     Copy a specific file extension in the tree directory 
     """
 
-    def __init__ (self, from_path, to_path, extention): 
+    def __init__ (self, from_path, to_path, extension): 
         """
         Constructor of class. Get paths and extension. Generate file list
         """
 
         self.from_path = from_path
         self.to_path = to_path
-        self.extention = extention
+        self.extension = extension
         self.files = [] 
 
         self.__verify_paths ()
@@ -41,8 +41,8 @@ class Copy ():
         """
 
         # Check correct extension
-        if not self.extention.startswith('.'): 
-            self.extention = '.' + self.extention #Add a dot
+        if not self.extension.startswith('.'): 
+            self.extension = '.' + self.extension #Add a dot
 
         absPath = os.path.abspath(self.from_path)
 
@@ -51,7 +51,7 @@ class Copy ():
             
             # if the file has the correct extension, save complite path
             for file in file_names: 
-                if file.endswith(self.extention):
+                if file.endswith(self.extension):
                     self.files.append(os.path.join(folder_name, file))
     
     def __copy_files (self):

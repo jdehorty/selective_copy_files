@@ -14,8 +14,8 @@ from selective_copy_files import selective_copy
 #  Save local folders
 from_folder = "c:\\user\\my_files"
 to_folder = "c:\\user\\backup_of_my_files"
-extention = "png"
+extension = "png"
 
 # backup folder 
-selective_copy.Copy(from_folder, to_folder, extention)
+selective_copy.Copy(from_folder, to_folder, extension)
 ```
